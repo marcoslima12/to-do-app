@@ -10,7 +10,11 @@ export default {
         quaternary: '#1E1E26',
         grey: '#2D2D3B',
         white: '#F9F9F9',
-        highlight: '#EE69AC'
+        
+        gradientStart: '#F29682',
+        highlight: '#EE69AC',
+        gradientStop: '#CB4BCF',
+
       },
       fontFamily: {
         inter: ['Inter', "sans-serif"]
