@@ -4,7 +4,6 @@ import { updateProfile } from "firebase/auth";
 import { signUp } from "../../services/auth";
 import { useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
-import { Logo } from "../../components/Logo";
 
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,6 +11,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Button } from "../../components/Button";
 import { Input } from "../../components/Input"; // Importa o componente Input
+import { MobileLogo } from "../../components/MobileLogo";
+import { DesktopLogo } from "../../components/DesktopLogo";
 
 const SignUpFormSchema = z
   .object({
@@ -91,9 +92,7 @@ export const SignUp = () => {
             <h1 className="text-white text-5xl md:text-6xl font-inter font-bold">
               do it!
             </h1>
-            <div className="flex lg:hidden">
-              <Logo />
-            </div>
+            <DesktopLogo />
           </div>
 
           <form
@@ -152,9 +151,7 @@ export const SignUp = () => {
           </form>
         </div>
 
-        <div className="bg-terciary hidden lg:flex">
-          <Logo />
-        </div>
+        <MobileLogo />
       </div>
       <ToastContainer />
     </>
