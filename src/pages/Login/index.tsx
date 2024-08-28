@@ -3,14 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { logIn } from "../../services/auth";
 import { useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
-import { Logo } from "../../components/Logo";
-
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Button } from "../../components/Button";
 import { Input } from "../../components/Input";
+import { DesktopLogo } from "../../components/DesktopLogo";
+import { MobileLogo } from "../../components/MobileLogo";
 
 const LoginFormSchema = z.object({
   email: z
@@ -64,15 +64,13 @@ export const Login = () => {
 
   return (
     <>
-      <div className="min-h-screen w-ful px-7 container mx-auto md:w-3/4 lg:w-2/4 lg:flex lg:justify-between lg:items-center">
-        <div className="flex flex-col justify-between items-start py-20">
+      <div className="min-h-screen w-full px-7 container mx-auto md:w-3/4 lg:w-2/4 lg:flex lg:justify-between lg:items-center">
+        <div className="flex flex-col justify-between items-start py-20 w-full lg:w-auto">
           <div className="w-full flex justify-between items-start">
             <h1 className="text-white text-5xl md:text-6xl font-inter font-bold">
               do it!
             </h1>
-            <div className="flex lg:hidden">
-              <Logo />
-            </div>
+            <DesktopLogo />
           </div>
 
           <form
@@ -108,7 +106,6 @@ export const Login = () => {
                   Recuperar senha
                 </a>
               </span>
-
               <span className="font-bold text-xs text-white">
                 Não tem uma conta?{" "}
                 <a href="/signup" className="underline">
@@ -119,10 +116,9 @@ export const Login = () => {
           </form>
         </div>
 
-        <div className="bg-terciary hidden lg:flex">
-          <Logo />
-        </div>
+        <MobileLogo />
       </div>
+
       <ToastContainer />
     </>
   );
