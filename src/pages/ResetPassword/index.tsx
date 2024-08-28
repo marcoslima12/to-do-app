@@ -1,10 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { logIn } from "../../services/auth";
-import { useEffect } from "react";
-import { useAuth } from "../../contexts/AuthContext";
-import { Logo } from "../../components/Logo";
-
+import { resetPassword } from "../../services/auth";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ToastContainer, toast } from "react-toastify";
@@ -12,34 +8,43 @@ import "react-toastify/dist/ReactToastify.css";
 import { Button } from "../../components/Button";
 import { Input } from "../../components/Input";
 
-const LoginFormSchema = z.object({
+const ResetPasswordSchema = z.object({
   email: z
     .string()
     .min(1, "Digite seu email!")
     .email("Digite um email válido!"),
-  password: z.string().min(1, "Digite sua senha!"),
 });
 
-type LoginFormInput = z.infer<typeof LoginFormSchema>;
+type ResetPasswordInput = z.infer<typeof ResetPasswordSchema>;
 
-export const Login = () => {
+export const ResetPassword = () => {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors, isSubmitting },
-  } = useForm<LoginFormInput>({ resolver: zodResolver(LoginFormSchema) });
-  const navigate = useNavigate();
-  const { currentUser } = useAuth();
+  } = useForm<ResetPasswordInput>({ resolver: zodResolver(ResetPasswordSchema) });
 
-  const onSubmit = async (data: LoginFormInput) => {
+  const navigate = useNavigate();
+
+  const onSubmit = async (data: ResetPasswordInput) => {
     try {
-      await logIn(data.email, data.password);
-      navigate("/home");
+      await resetPassword(data.email);
+      toast.success("Email de recuperação enviado com sucesso!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        icon: false,
+        className: "rounded shadow-lg text-white bg-secondary text-sm",
+      });
+      navigate("/login");
     } catch (err) {
-      console.error("Login failed", err);
+      console.error("Reset Password failed", err);
       toast.error(
-        "Falha no login. Verifique suas credenciais e tente novamente.",
+        "Falha ao enviar o email de recuperação. Verifique suas informações e tente novamente.",
         {
           position: "top-right",
           autoClose: 3000,
@@ -49,18 +54,11 @@ export const Login = () => {
           draggable: true,
           progress: undefined,
           icon: false,
-          className: "rounded shadow-lg text-white bg-secondary text-sm", // Adiciona sombra e bordas arredondadas
+          className: "rounded shadow-lg text-white bg-secondary text-sm",
         }
       );
     }
-    reset();
   };
-
-  useEffect(() => {
-    if (currentUser) {
-      navigate("/home");
-    }
-  }, [currentUser, navigate]);
 
   return (
     <>
@@ -68,11 +66,8 @@ export const Login = () => {
         <div className="flex flex-col justify-between items-start py-20">
           <div className="w-full flex justify-between items-start">
             <h1 className="text-white text-5xl md:text-6xl font-inter font-bold">
-              do it!
+              Recuperar Senha
             </h1>
-            <div className="flex lg:hidden">
-              <Logo />
-            </div>
           </div>
 
           <form
@@ -87,40 +82,21 @@ export const Login = () => {
               register={register("email")}
             />
 
-            <Input
-              id="password"
-              label="Senha"
-              type="password"
-              error={errors.password}
-              register={register("password")}
-            />
-
             <div className="w-full gap-4 py-6 flex flex-col items-center justify-between">
               <Button
-                text="Continuar"
+                text="Enviar Email de Recuperação"
                 type="submit"
                 isSubmitting={isSubmitting}
               />
 
               <span className="font-bold text-xs text-white">
-                Esqueceu sua senha?{" "}
-                <a href="/reset-password" className="underline">
-                  Recuperar senha
-                </a>
-              </span>
-
-              <span className="font-bold text-xs text-white">
-                Não tem uma conta?{" "}
-                <a href="/signup" className="underline">
-                  Cadastre-se!
+                Lembrou sua senha?{" "}
+                <a href="/login" className="underline">
+                  Faça login!
                 </a>
               </span>
             </div>
           </form>
-        </div>
-
-        <div className="bg-terciary hidden lg:flex">
-          <Logo />
         </div>
       </div>
       <ToastContainer />
