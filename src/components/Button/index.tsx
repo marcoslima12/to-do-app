@@ -13,7 +13,7 @@ export const Button = ({ isSubmitting, onClick, text, type }: Props) => {
       onClick={onClick}
       disabled={isSubmitting}
       type={type}
-      className={`w-full gradient-highlight text-terciary text-sm font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline flex justify-center items-center ${
+      className={`w-full custom-gradient hover:custom-gradient:hover transition-all duration-300 text-terciary text-sm font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline flex justify-center items-center ${
         isSubmitting ? "opacity-50 cursor-not-allowed" : ""
       }`}
     >
