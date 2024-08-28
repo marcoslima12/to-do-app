@@ -3,12 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { logIn } from "../../services/auth";
 import { useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
-import { Logo } from "../../assets/Logo";
+import { Logo } from "../../components/Logo";
 
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Button } from "../../components/Button";
+import { Input } from "../../components/Input";
 
 const LoginFormSchema = z.object({
   email: z
@@ -77,93 +79,35 @@ export const Login = () => {
             className="w-full flex flex-col justify-evenly items-center mt-16"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <div className="w-full">
-              <label
-                className=" text-white text-lg font-bold lg:text-xl "
-                htmlFor="email"
-              >
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                {...register("email")}
-                className={`box-border w-full px-3  py-2 mt-4 mb-2 text-sm bg-primary text-white rounded shadow focus:outline-none focus:shadow-outline ${
-                  errors.email ? "border-red-500" : ""
-                }  `}
-              />
-              {errors.email && (
-                <p className="text-red-500 text-xs italic mb-2">
-                  {errors.email.message}
-                </p>
-              )}
-            </div>
+            <Input
+              id="email"
+              label="Email"
+              type="email"
+              error={errors.email}
+              register={register("email")}
+            />
 
-            <div className="w-full">
-              <label
-                className=" text-white text-lg lg:text-xl font-bold"
-                htmlFor="password"
-              >
-                Senha
-              </label>
-              <input
-                type="password"
-                id="password"
-                {...register("password")}
-                className={`w-full px-3 py-2 mt-4 mb-2 text-sm bg-primary text-white rounded shadow focus:outline-none focus:shadow-outline ${
-                  errors.password ? "border-red-500 mb-2" : ""
-                }`}
-              />
-              {errors.password && (
-                <p className="text-red-500 text-xs italic">
-                  {errors.password.message}
-                </p>
-              )}
-            </div>
+            <Input
+              id="password"
+              label="Senha"
+              type="password"
+              error={errors.password}
+              register={register("password")}
+            />
 
             <div className="w-full gap-4 py-6 flex flex-col items-center justify-between">
-              <button
-                disabled={isSubmitting}
+              <Button
+                text="Continuar"
                 type="submit"
-                className={`w-full gradient-highlight text-terciary text-sm font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline flex justify-center items-center ${
-                  isSubmitting ? "opacity-50 cursor-not-allowed" : ""
-                }`}
-              >
-                {isSubmitting ? (
-                  <svg
-                    className="animate-spin h-5 w-5 text-white"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    ></circle>
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                    ></path>
-                  </svg>
-                ) : (
-                  "Continuar"
-                )}
-              </button>
+                isSubmitting={isSubmitting}
+              />
+
               <span className="font-bold text-xs text-white">
                 Não tem uma conta?{" "}
                 <a href="/signup" className="underline">
                   Cadastre-se!
                 </a>
               </span>
-
-              {/* <a href="/signup" className="underline font-bold text-xs text-white">
-            Esqueci minha senha
-          </a> */}
             </div>
           </form>
         </div>
