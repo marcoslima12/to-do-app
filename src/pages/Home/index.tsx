@@ -5,13 +5,13 @@ import { logOut } from "../../services/auth";
 import { useEffect } from "react";
 import { Task } from "../../components/Task";
 import { Logout } from "../../components/IconLogout";
-import data from "./mock/index.json";
 import { Sidebar } from "../../components/Sidebar";
 import { Header } from "../../components/Header";
 import { TaskModal } from "../../components/Modal";
+import { useTasks } from "../../contexts/TaskContext";
 
 export const Home: React.FC = () => {
-  const tasks = data.data;
+  const { tasks, addTask } = useTasks();
   const { currentUser } = useAuth();
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,8 +28,12 @@ export const Home: React.FC = () => {
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
 
-  const handleCreateTask = (data: { title: string; desc: string; deadline: Date }) => {
-    console.log(data);
+  const handleCreateTask = (data: {
+    title: string;
+    desc?: string;
+    deadline: Date;
+  }) => {
+    addTask({ ...data, isDone: false });
     handleCloseModal();
   };
 
@@ -41,11 +45,9 @@ export const Home: React.FC = () => {
 
   return (
     <div className="min-h-screen h-4/5 w-full flex flex-col lg:flex-row">
-
       <Sidebar />
       <Header />
-
-      <div className="flex-1 flex flex-col px-5 pt-20 lg:pl-96">
+      <div className="w-full flex-1 flex flex-col px-5 pt-20 lg:pl-96">
         <div className="flex lg:hidden items-center justify-between mb-6">
           <h1 className="font-bold text-xl text-white">
             Olá, {currentUser?.displayName}!
@@ -67,22 +69,15 @@ export const Home: React.FC = () => {
           </button>
         </div>
 
-        {tasks.map((task) => {
-          return (
-            <Task deadline={new Date()} title={task.title} desc={task.desc} />
-          );
-        })}
-        <Task
-          deadline={new Date()}
-          title="Frontend do app"
-          desc="Fazer todo o frontend até hoje"
-        />
-        <Task
-          deadline={new Date("03/24/2024")}
-          title="Backend da neurotech"
-          desc="Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa adipisci rem quia pariatur nobis obcaecati cum porro dolores excepturi. Quis maxime consequatur, quisquam libero ipsa blanditiis tempore eligendi nesciunt culpa?"
-        />
-        <Task deadline={new Date("12/24/2024")} title="Fazer a API bem feita" />
+        {tasks.map((task) => (
+          <Task
+            key={task.title}
+            deadline={task.deadline}
+            title={task.title}
+            desc={task.desc}
+            isDone={task.isDone}
+          />
+        ))}
 
         <button
           onClick={handleOpenModal}

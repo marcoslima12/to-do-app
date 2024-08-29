@@ -1,33 +1,39 @@
 import { useState } from "react";
 import { IconTrash } from "../IconTrash";
 import { Check } from "../Check";
+import { useTasks } from "../../contexts/TaskContext";
 
 interface Props {
   title: string;
   desc?: string;
   deadline?: Date;
+  isDone: boolean;
 }
 
-export const Task = ({ desc = "", title, deadline }: Props) => {
-  const [isDone, setIsDone] = useState(false);
+export const Task = ({ desc = "", title, deadline, isDone: initialIsDone }: Props) => {
+  const { deleteTask, toggleTaskDone } = useTasks();
+  const [isDone, setIsDone] = useState(initialIsDone);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const toggleDone = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Impede que o clique no checkbox abra o modal
-    setIsDone(!isDone);
+    e.stopPropagation();
+    const newIsDone = !isDone;
+    setIsDone(newIsDone);
+    toggleTaskDone(title, newIsDone);
   };
-
+  
   const toggleModal = () => setIsModalOpen(!isModalOpen);
 
-  const handleDeleteTask = () => {
-    console.log("Delete task\n");
+  const handleDeleteTask = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    deleteTask(title);
   };
 
   return (
     <div>
       <div
         onClick={toggleModal}
-        className={`w-full bg-primary p-4 flex flex-col gap-2 my-4 rounded cursor-pointer transition-opacity duration-300 ${
+        className={`w-full bg-primary p-4 flex flex-col gap-2 my-4 rounded cursor-pointer transition-opacity duration-300 task-transition ${
           isDone ? "opacity-50" : "opacity-100"
         }`}
       >
@@ -36,7 +42,7 @@ export const Task = ({ desc = "", title, deadline }: Props) => {
             <span className="text-sm text-highlight">{title}</span>
 
             <div
-              className={`text-xs font-white line-clamp-2 overflow-hidden transition-all duration-500`}
+              className={`text-xs font-white line-clamp-1 transition-all duration-500`}
             >
               {desc}
             </div>
@@ -48,7 +54,7 @@ export const Task = ({ desc = "", title, deadline }: Props) => {
 
           <div className="flex items-center gap-2">
             <div onClick={toggleDone}>
-              <Check  />
+              <Check />
             </div>
             <button onClick={handleDeleteTask}>
               <IconTrash />
@@ -68,7 +74,7 @@ export const Task = ({ desc = "", title, deadline }: Props) => {
             <div className="flex justify-end">
               <button
                 onClick={toggleModal}
-                className="bg-secondary text-white py-2 px-4 rounded hover:bg-highlight transition-all durantion-500"
+                className="bg-secondary text-white py-2 px-4 rounded hover:bg-highlight transition-all duration-500"
               >
                 Fechar
               </button>

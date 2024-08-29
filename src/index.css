@@ -12,7 +12,6 @@
   @apply bg-gradient-to-r from-gradientStop via-highlight to-gradientStart;
 }
 
-/* Adicione este código ao seu arquivo CSS global, como styles.css */
 @layer base {
   input:-webkit-autofill,
   input:-webkit-autofill:hover,
@@ -23,11 +22,11 @@
   select:-webkit-autofill,
   select:-webkit-autofill:hover,
   select:-webkit-autofill:focus {
-    -webkit-text-fill-color: #F9F9F9; /* Cor do texto (white) */
-    -webkit-box-shadow: 0 0 0px 1000px #1E1E26 inset; /* Cor do background (primary) */
-    transition: background-color 5000s ease-in-out 0s; /* Mantém a transição do background */
+    -webkit-text-fill-color: #f9f9f9; 
+    -webkit-box-shadow: 0 0 0px 1000px #1e1e26 inset; 
+    transition: background-color 5000s ease-in-out 0s; 
   }
   ::-webkit-calendar-picker-indicator {
     filter: invert(1);
-}
+  }
 }

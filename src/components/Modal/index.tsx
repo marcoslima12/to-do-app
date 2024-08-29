@@ -8,10 +8,10 @@ import { Close } from "../Close";
 
 const schema = z.object({
   title: z.string().min(1, "Título é obrigatório"),
-  desc: z.string().min(1, "Descrição é obrigatória"),
+  desc: z.string().optional(),
   deadline: z.date({
     required_error: "Deadline é obrigatório",
-    invalid_type_error: "Data inválida",
+    invalid_type_error: "Data inválida"
   }),
 });
 
@@ -32,9 +32,15 @@ export const TaskModal: React.FC<TaskModalProps> = ({
     register,
     handleSubmit,
     formState: { errors },
+    reset, 
   } = useForm<TaskFormData>({
     resolver: zodResolver(schema),
   });
+
+  const handleFormSubmit = (data: TaskFormData) => {
+    onSubmit(data);
+    reset(); 
+  };
 
   if (!isOpen) return null;
 
@@ -50,7 +56,7 @@ export const TaskModal: React.FC<TaskModalProps> = ({
         </button>
         <h2 className="text-xl mb-4 text-highlight">Criar tarefa</h2>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(handleFormSubmit)}>
           <div className="mb-4">
             <Input
               id="title"
