@@ -6,6 +6,7 @@ interface InputFieldProps {
   type: string;
   error?: FieldError;
   register: UseFormRegisterReturn;
+  placeholder?: string;
 }
 
 export const Input = ({
@@ -14,13 +15,15 @@ export const Input = ({
   type,
   error,
   register,
+  placeholder = "",
 }: InputFieldProps) => {
   return (
     <div className="w-full">
-      <label className="text-white text-lg font-bold lg:text-xl" htmlFor={id}>
+      <label className="text-white text-md font-bold lg:text-xl" htmlFor={id}>
         {label}
       </label>
       <input
+        placeholder={placeholder}
         type={type}
         id={id}
         {...register}
