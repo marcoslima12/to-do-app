@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "../firebase/firebase";
+import { Loading } from "../components/Loading";
 
 interface AuthContextProps {
   currentUser: User | null;
@@ -22,7 +23,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading />
   }
 
   return (
