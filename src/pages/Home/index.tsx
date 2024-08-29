@@ -8,6 +8,7 @@ import { Logout } from "../../components/IconLogout";
 import data from "./mock/index.json";
 import { Sidebar } from "../../components/Sidebar";
 import { Header } from "../../components/Header";
+import { TaskModal } from "../../components/Modal";
 
 export const Home: React.FC = () => {
   const tasks = data.data;
@@ -18,7 +19,7 @@ export const Home: React.FC = () => {
   const handleLogout = async () => {
     try {
       await logOut();
-      navigate("/login"); // Redireciona para a página de login após logout
+      navigate("/login");
     } catch (err) {
       console.error("Logout failed", err);
     }
@@ -26,6 +27,11 @@ export const Home: React.FC = () => {
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
+
+  const handleCreateTask = (data: { title: string; desc: string; deadline: Date }) => {
+    console.log(data);
+    handleCloseModal();
+  };
 
   useEffect(() => {
     if (!currentUser) {
@@ -85,20 +91,11 @@ export const Home: React.FC = () => {
           +
         </button>
 
-        {isModalOpen && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-            <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 md:w-1/3">
-              <h2 className="text-xl mb-4">Nova Task</h2>
-
-              <button
-                onClick={handleCloseModal}
-                className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-              >
-                Fechar
-              </button>
-            </div>
-          </div>
-        )}
+        <TaskModal
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          onSubmit={handleCreateTask}
+        />
       </div>
     </div>
   );
