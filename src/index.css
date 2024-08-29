@@ -27,4 +27,7 @@
     -webkit-box-shadow: 0 0 0px 1000px #1E1E26 inset; /* Cor do background (primary) */
     transition: background-color 5000s ease-in-out 0s; /* Mantém a transição do background */
   }
+  ::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
 }
