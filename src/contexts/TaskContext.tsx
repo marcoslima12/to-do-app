@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useState, ReactNode } from "react";
 
 interface Task {
   title: string;
@@ -14,15 +14,7 @@ interface TaskContextType {
   toggleTaskDone: (title: string, isDone: boolean) => void;
 }
 
-const TaskContext = createContext<TaskContextType | undefined>(undefined);
-
-export const useTasks = () => {
-  const context = useContext(TaskContext);
-  if (!context) {
-    throw new Error("useTasks must be used within a TaskProvider");
-  }
-  return context;
-};
+export const TaskContext = createContext<TaskContextType | undefined>(undefined);
 
 export const TaskProvider = ({ children }: { children: ReactNode }) => {
   const [tasks, setTasks] = useState<Task[]>([]);

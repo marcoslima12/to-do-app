@@ -2,7 +2,6 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { logIn } from "../../services/auth";
 import { useEffect } from "react";
-import { useAuth } from "../../contexts/AuthContext";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ToastContainer, toast } from "react-toastify";
@@ -11,6 +10,7 @@ import { Button } from "../../components/Button";
 import { Input } from "../../components/Input";
 import { DesktopLogo } from "../../components/DesktopLogo";
 import { MobileLogo } from "../../components/MobileLogo";
+import { useAuth } from "../../contexts";
 
 const LoginFormSchema = z.object({
   email: z

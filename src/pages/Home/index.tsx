@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthContext";
 import { logOut } from "../../services/auth";
 import { useEffect } from "react";
 import { Task } from "../../components/Task";
@@ -8,8 +7,8 @@ import { Logout } from "../../components/IconLogout";
 import { Sidebar } from "../../components/Sidebar";
 import { Header } from "../../components/Header";
 import { TaskModal } from "../../components/Modal";
-import { useTasks } from "../../contexts/TaskContext";
 import { Add } from "../../components/Add";
+import { useAuth, useTasks } from "../../contexts";
 
 export const Home: React.FC = () => {
   const { tasks, addTask } = useTasks();
