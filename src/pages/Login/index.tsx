@@ -83,6 +83,7 @@ export const Login = () => {
               type="email"
               error={errors.email}
               register={register("email")}
+              placeholder="Email"
             />
 
             <Input
@@ -91,6 +92,7 @@ export const Login = () => {
               type="password"
               error={errors.password}
               register={register("password")}
+              placeholder="Senha"
             />
 
             <div className="w-full gap-4 py-6 flex flex-col items-center justify-between">

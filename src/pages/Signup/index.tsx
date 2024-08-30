@@ -105,6 +105,8 @@ export const SignUp = () => {
               type="text"
               error={errors.firstName}
               register={register("firstName")}
+              placeholder="Nome"
+              required
             />
 
             <Input
@@ -113,6 +115,8 @@ export const SignUp = () => {
               type="text"
               error={errors.lastName}
               register={register("lastName")}
+              placeholder="Sobrenome"
+              required
             />
 
             <Input
@@ -121,6 +125,8 @@ export const SignUp = () => {
               type="email"
               error={errors.email}
               register={register("email")}
+              placeholder="Email"
+              required
             />
 
             <Input
@@ -129,18 +135,26 @@ export const SignUp = () => {
               type="password"
               error={errors.password}
               register={register("password")}
+              placeholder="Senha"
+              required
             />
 
             <Input
               id="confirmPassword"
-              label="Confirmar Senha"
+              label="Confirmar senha"
               type="password"
               error={errors.confirmPassword}
               register={register("confirmPassword")}
+              placeholder="Confirmar senha"
+              required
             />
 
             <div className="w-full gap-4 py-6 flex flex-col items-center justify-between">
-              <Button text="Cadastrar-se" type="submit" isSubmitting={isSubmitting} /> 
+              <Button
+                text="Cadastrar-se"
+                type="submit"
+                isSubmitting={isSubmitting}
+              />
               <span className="font-bold text-xs text-white">
                 Já tem uma conta?{" "}
                 <a href="/login" className="underline">

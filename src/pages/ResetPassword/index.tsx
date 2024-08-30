@@ -80,11 +80,12 @@ export const ResetPassword = () => {
               type="email"
               error={errors.email}
               register={register("email")}
+              placeholder="Email"
             />
 
             <div className="w-full gap-4 py-6 flex flex-col items-center justify-between">
               <Button
-                text="Enviar Email de Recuperação"
+                text="Enviar email de recuperação"
                 type="submit"
                 isSubmitting={isSubmitting}
               />

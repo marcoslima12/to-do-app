@@ -64,7 +64,8 @@ export const TaskModal: React.FC<TaskModalProps> = ({
               type="text"
               error={errors.title}
               register={register("title")}
-              placeholder="Insira o título da tarefa"
+              placeholder="Título"
+              required
             />
           </div>
           <div className="mb-4">
@@ -74,7 +75,7 @@ export const TaskModal: React.FC<TaskModalProps> = ({
               type="text"
               error={errors.desc}
               register={register("desc")}
-              placeholder="Insira a descrição da tarefa"
+              placeholder="Descrição"
             />
           </div>
           <div className="mb-4 ">
@@ -88,7 +89,8 @@ export const TaskModal: React.FC<TaskModalProps> = ({
                   valueAsDate: true,
                 }),
               }}
-              placeholder="Insira a data de finalização"
+              placeholder="Data"
+              required
             />
           </div>
           <div className="flex gap-4">

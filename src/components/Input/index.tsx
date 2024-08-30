@@ -7,6 +7,7 @@ interface InputFieldProps {
   error?: FieldError;
   register: UseFormRegisterReturn;
   placeholder?: string;
+  required?: boolean;
 }
 
 export const Input = ({
@@ -16,11 +17,14 @@ export const Input = ({
   error,
   register,
   placeholder = "",
+  required = false
 }: InputFieldProps) => {
   return (
     <div className="w-full">
       <label className="text-white text-md font-bold lg:text-xl" htmlFor={id}>
-        {label}
+        {label} {required && (
+          <span className="text-highlight ml-1">*</span>
+        )}
       </label>
       <input
         placeholder={placeholder}
