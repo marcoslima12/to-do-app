@@ -9,6 +9,7 @@ import { Sidebar } from "../../components/Sidebar";
 import { Header } from "../../components/Header";
 import { TaskModal } from "../../components/Modal";
 import { useTasks } from "../../contexts/TaskContext";
+import { Add } from "../../components/Add";
 
 export const Home: React.FC = () => {
   const { tasks, addTask } = useTasks();
@@ -64,9 +65,9 @@ export const Home: React.FC = () => {
             </h2>
             <button
               onClick={handleOpenModal}
-              className="text-3xl custom-gradient hover:custom-gradient:hover text-white rounded-full w-12 h-12 hidden lg:flex items-center justify-center shadow-lg "
+              className="text-3xl custom-gradient hover:custom-gradient:hover text-white rounded-full w-12 h-12 hidden lg:flex lg:items-center lg:justify-center shadow-lg "
             >
-              +
+              <Add />
             </button>
           </div>
 
@@ -84,7 +85,7 @@ export const Home: React.FC = () => {
             onClick={handleOpenModal}
             className="text-3xl fixed bottom-5 right-5 custom-gradient hover:custom-gradient:hover text-white rounded-full w-12 h-12 flex lg:hidden items-center justify-center shadow-lg "
           >
-            +
+            <Add />
           </button>
 
           <TaskModal
