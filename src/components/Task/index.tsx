@@ -2,6 +2,7 @@ import { useState } from "react";
 import { IconTrash } from "../IconTrash";
 import { Check } from "../Check";
 import { useTasks } from "../../contexts/TaskContext";
+import { Modal } from "../Modals/DefaultModal";
 
 interface Props {
   title: string;
@@ -10,7 +11,12 @@ interface Props {
   isDone: boolean;
 }
 
-export const Task = ({ desc = "", title, deadline, isDone: initialIsDone }: Props) => {
+export const Task = ({
+  desc = "",
+  title,
+  deadline,
+  isDone: initialIsDone,
+}: Props) => {
   const { deleteTask, toggleTaskDone } = useTasks();
   const [isDone, setIsDone] = useState(initialIsDone);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,12 +27,28 @@ export const Task = ({ desc = "", title, deadline, isDone: initialIsDone }: Prop
     setIsDone(newIsDone);
     toggleTaskDone(title, newIsDone);
   };
-  
+
   const toggleModal = () => setIsModalOpen(!isModalOpen);
 
   const handleDeleteTask = (e: React.MouseEvent) => {
     e.stopPropagation();
     deleteTask(title);
+  };
+
+  const TaskModalComponent = () => {
+    return (
+      <div>
+        <h3 className="text-md font-bold lg:text-xl mb-2 text-highlight">
+          {title}
+        </h3>
+        <p className="text-white mb-4 text-sm">{desc}</p>
+        {deadline && (
+          <span className="text-xs text-highlight text">
+            {deadline.toDateString()}
+          </span>
+        )}
+      </div>
+    );
   };
 
   return (
@@ -63,25 +85,11 @@ export const Task = ({ desc = "", title, deadline, isDone: initialIsDone }: Prop
         </div>
       </div>
 
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-quaternary bg-opacity-50 flex justify-center items-center">
-          <div className="bg-primary p-6 rounded shadow-lg shadow-terciary w-4/5">
-            <h2 className="text-lg font-bold mb-4">{title}</h2>
-            <p className="text-sm mb-4">{desc}</p>
-            <p className="text-xs text-highlight mb-4">
-              Deadline: {deadline?.toLocaleDateString("pt-BR")}
-            </p>
-            <div className="flex justify-end">
-              <button
-                onClick={toggleModal}
-                className="bg-secondary text-white py-2 px-4 rounded hover:bg-highlight transition-all duration-500"
-              >
-                Fechar
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <Modal
+        children={<TaskModalComponent />}
+        isOpen={isModalOpen}
+        onClose={toggleModal}
+      />
     </div>
   );
 };

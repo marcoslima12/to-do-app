@@ -2,9 +2,9 @@ import React, { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "../Input";
-import { Button } from "../Button";
-import { Close } from "../Close";
+import { Input } from "../../Input";
+import { Button } from "../../Button";
+import { Close } from "../../Close";
 
 const schema = z.object({
   title: z.string().min(1, "Título é obrigatório"),
@@ -68,7 +68,6 @@ export const TaskModal: React.FC<TaskModalProps> = ({
 
   const handleClickOutside = () => {
     if (dialogRef.current) {
-      
       onClose();
     }
   };
@@ -76,10 +75,12 @@ export const TaskModal: React.FC<TaskModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <dialog ref={dialogRef}
-    onClick={handleClickOutside}>
+    <dialog ref={dialogRef} onClick={handleClickOutside}>
       <div className="fixed inset-0 bg-primary backdrop-blur-sm bg-opacity-50 flex justify-center items-center">
-        <div onClick={(e) => e.stopPropagation()} className="bg-terciary p-6 rounded-lg shadow-lg w-11/12 md:w-3/5 max-w-lg relative">
+        <div
+          onClick={(e) => e.stopPropagation()}
+          className="bg-terciary p-6 rounded-lg shadow-lg w-11/12 md:w-3/5 max-w-lg relative"
+        >
           <button
             className="absolute top-4 right-4"
             onClick={onClose}

@@ -7,7 +7,7 @@ import { Task } from "../../components/Task";
 import { Logout } from "../../components/IconLogout";
 import { Sidebar } from "../../components/Sidebar";
 import { Header } from "../../components/Header";
-import { TaskModal } from "../../components/Modal";
+import { TaskModal } from "../../components/Modals/TaskModal";
 import { useTasks } from "../../contexts/TaskContext";
 import { Add } from "../../components/Add";
 
