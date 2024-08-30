@@ -16,14 +16,6 @@ interface TaskContextType {
 
 const TaskContext = createContext<TaskContextType | undefined>(undefined);
 
-export const useTasks = () => {
-  const context = useContext(TaskContext);
-  if (!context) {
-    throw new Error("useTasks must be used within a TaskProvider");
-  }
-  return context;
-};
-
 export const TaskProvider = ({ children }: { children: ReactNode }) => {
   const [tasks, setTasks] = useState<Task[]>([]);
 
@@ -51,4 +43,13 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
       {children}
     </TaskContext.Provider>
   );
+};
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const useTasks = () => {
+  const context = useContext(TaskContext);
+  if (!context) {
+    throw new Error("useTasks must be used within a TaskProvider");
+  }
+  return context;
 };
