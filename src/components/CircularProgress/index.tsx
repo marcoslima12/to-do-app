@@ -3,7 +3,7 @@ interface Props {
   height?: string | number;
 }
 
-export const CircularPogress = ({ height = 24, width = 24 }: Props) => {
+export const CircularProgress = ({ height = 24, width = 24 }: Props) => {
   return (
     <div style={{ width, height }}>
       <svg

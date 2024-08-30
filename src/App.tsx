@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
 import { SignUp } from "./pages/Signup";
-import { PrivateRoute } from "./components/PrivateRoute.tsx";
+import { PrivateRoute } from "./components/PrivateRoute/index.tsx";
 import { ResetPassword } from "./pages/ResetPassword/index.tsx";
 
 function App() {

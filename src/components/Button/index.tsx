@@ -1,4 +1,4 @@
-import { CircularPogress } from "../CircularProgress";
+import { CircularProgress } from "../CircularProgress";
 
 interface Props {
   text: string;
@@ -17,7 +17,7 @@ export const Button = ({ isSubmitting, onClick, text, type }: Props) => {
         isSubmitting ? "opacity-50 cursor-not-allowed" : ""
       }`}
     >
-      {isSubmitting ? <CircularPogress /> : text}
+      {isSubmitting ? <CircularProgress /> : text}
     </button>
   );
 };
