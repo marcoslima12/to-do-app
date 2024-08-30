@@ -63,7 +63,7 @@ export const SignUp = () => {
       toast.error(
         "Falha no cadastro. Verifique suas informações e tente novamente.",
         {
-          position: "top-right",
+          position: "bottom-right",
           autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,

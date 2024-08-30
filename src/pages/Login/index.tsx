@@ -41,7 +41,7 @@ export const Login = () => {
       toast.error(
         "Falha no login. Verifique suas credenciais e tente novamente.",
         {
-          position: "top-right",
+          position: "bottom-right",
           autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -49,7 +49,7 @@ export const Login = () => {
           draggable: true,
           progress: undefined,
           icon: false,
-          className: "rounded shadow-lg text-white bg-secondary text-sm", // Adiciona sombra e bordas arredondadas
+          className: "rounded shadow-lg text-white bg-primary text-sm", 
         }
       );
     }

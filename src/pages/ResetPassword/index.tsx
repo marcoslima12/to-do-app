@@ -30,7 +30,7 @@ export const ResetPassword = () => {
     try {
       await resetPassword(data.email);
       toast.success("Email de recuperação enviado com sucesso!", {
-        position: "top-right",
+        position: "bottom-right",
         autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -46,7 +46,7 @@ export const ResetPassword = () => {
       toast.error(
         "Falha ao enviar o email de recuperação. Verifique suas informações e tente novamente.",
         {
-          position: "top-right",
+          position: "bottom-right",
           autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,

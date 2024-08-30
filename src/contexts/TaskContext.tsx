@@ -3,7 +3,7 @@ import { createContext, useContext, useState, ReactNode } from "react";
 interface Task {
   title: string;
   desc?: string;
-  deadline?: Date;
+  deadline: Date;
   isDone: boolean;
 }
 
