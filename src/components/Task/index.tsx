@@ -6,6 +6,7 @@ import { Check } from "../Check";
 import { Uncheck } from "../Uncheck";
 
 interface Props {
+  id: string;
   title: string;
   desc?: string;
   deadline?: Date;
@@ -13,6 +14,7 @@ interface Props {
 }
 
 export const Task = ({
+  id,
   desc = "",
   title,
   deadline,
@@ -26,14 +28,14 @@ export const Task = ({
     e.stopPropagation();
     const newIsDone = !isDone;
     setIsDone(newIsDone);
-    toggleTaskDone(title, newIsDone);
+    toggleTaskDone(id, newIsDone); 
   };
 
   const toggleModal = () => setIsModalOpen(!isModalOpen);
 
   const handleDeleteTask = (e: React.MouseEvent) => {
     e.stopPropagation();
-    deleteTask(title);
+    deleteTask(id); 
   };
 
   const TaskModalComponent = () => {
@@ -76,9 +78,7 @@ export const Task = ({
           </div>
 
           <div className="flex items-center gap-2">
-            <div onClick={toggleDone}>
-              {isDone ? <Uncheck /> : <Check />}
-            </div>
+            <div onClick={toggleDone}>{isDone ? <Uncheck /> : <Check />}</div>
             <button onClick={handleDeleteTask}>
               <IconTrash />
             </button>
