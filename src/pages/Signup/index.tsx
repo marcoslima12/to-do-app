@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { updateProfile } from "firebase/auth";
+import { sendEmailVerification, updateProfile } from "firebase/auth";
 import { signUp } from "../../services/auth";
 import { useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
@@ -55,9 +55,11 @@ export const SignUp = () => {
         await updateProfile(userCredential.user, {
           displayName: `${data.firstName} ${data.lastName}`,
         });
+        await sendEmailVerification(userCredential.user);
       }
+      
+      navigate("/verify-email");
 
-      navigate("/home");
     } catch (err) {
       console.error("Sign Up failed", err);
       toast.error(
