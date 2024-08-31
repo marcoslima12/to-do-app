@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { IconTrash } from "../IconTrash";
-import { Check } from "../Check";
 import { useTasks } from "../../contexts/TaskContext";
 import { Modal } from "../Modals/DefaultModal";
+import { Check } from "../Check";
+import { Uncheck } from "../Uncheck";
 
 interface Props {
   title: string;
@@ -44,7 +45,7 @@ export const Task = ({
         <p className="text-white mb-4 text-sm">{desc}</p>
         {deadline && (
           <span className="text-xs text-highlight text">
-            {deadline.toDateString()}
+            {deadline.toLocaleDateString("pt-BR")}
           </span>
         )}
       </div>
@@ -76,7 +77,7 @@ export const Task = ({
 
           <div className="flex items-center gap-2">
             <div onClick={toggleDone}>
-              <Check />
+              {isDone ? <Uncheck /> : <Check />}
             </div>
             <button onClick={handleDeleteTask}>
               <IconTrash />
