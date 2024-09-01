@@ -74,12 +74,22 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const deleteTask = (id: string) => {
-    dispatch({ type: "DELETE_TASK", payload: id });
+  const deleteTask = async (taskId: string) => {
+    try {
+      await api.delete(`/tasks/${taskId}`);
+      dispatch({ type: "DELETE_TASK", payload: taskId });
+    } catch (error) {
+      console.error('Error deleting task:', error);
+    }
   };
 
-  const toggleTaskDone = (id: string, isDone: boolean) => {
-    dispatch({ type: "TOGGLE_TASK_DONE", payload: { id, isDone } });
+  const toggleTaskDone = async (id: string, isDone: boolean) => {
+    try {
+      await api.patch(`/tasks/done/${id}`, { isDone });
+      dispatch({ type: "TOGGLE_TASK_DONE", payload: { id, isDone } });
+    } catch (error) {
+      console.error('Error updating task status:', error);
+    }
   };
 
   return (

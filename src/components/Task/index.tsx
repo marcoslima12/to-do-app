@@ -35,6 +35,7 @@ export const Task = ({
 
   const handleDeleteTask = (e: React.MouseEvent) => {
     e.stopPropagation();
+     
     deleteTask(id); 
   };
 
