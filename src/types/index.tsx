@@ -3,3 +3,9 @@ export type TaskType = {
     desc?: string;
     deadline: Date;
 }
+
+export type UserType = {
+    id: string;
+    email: string;
+    fullname: string;
+}

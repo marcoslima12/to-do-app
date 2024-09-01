@@ -6,15 +6,23 @@ import { Logout } from "../../components/IconLogout";
 import { Sidebar } from "../../components/Sidebar";
 import { Header } from "../../components/Header";
 import { TaskModal } from "../../components/Modals/TaskModal";
-import { useTasks } from "../../contexts/TaskContext";
+import { useFetchTasks, useTasks } from "../../contexts/TaskContext";
 import { useAuth } from "../../contexts/AuthContext";
 import { Add } from "../../components/Add";
+import { useUser } from "../../contexts/UserContext";
 
 export const Home: React.FC = () => {
   const { tasks, addTask } = useTasks();
+  const {fetchAndSetUser, user} = useUser();
   const { currentUser } = useAuth();
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useFetchTasks(user?.id || "");
+
+  useEffect(() => {
+    if(currentUser) fetchAndSetUser(currentUser.email!);
+}, [currentUser, currentUser?.email, fetchAndSetUser]);
 
   const handleLogout = async () => {
     try {
@@ -35,6 +43,7 @@ export const Home: React.FC = () => {
   }) => {
     const newTask = {
       id: String(Date.now()),
+      userId: 1,
       title: data.title,
       desc: data.desc,
       deadline: data.deadline,
@@ -50,6 +59,7 @@ export const Home: React.FC = () => {
     }
   }, [currentUser, navigate]);
 
+  
   return (
     <>
       <div className="min-h-screen h-4/5 w-full flex flex-col lg:flex-row">
