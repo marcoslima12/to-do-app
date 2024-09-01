@@ -49,7 +49,7 @@ export const Home: React.FC = () => {
       deadline: data.deadline,
       isDone: false,
     };
-    addTask(newTask);
+    addTask(newTask, user?.id || "");
     handleCloseModal();
   };
 

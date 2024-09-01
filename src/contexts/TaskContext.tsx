@@ -1,5 +1,6 @@
 import { createContext, useContext, ReactNode, useReducer, useEffect } from "react";
 import api from "../services/api";
+import { TaskType } from "../types";
 
 interface Task {
   id: string;
@@ -46,7 +47,7 @@ function taskReducer(state: Task[], action: TaskAction): Task[] {
 interface TaskContextType {
   tasks: Task[];
   setTasks: (tasks: Task[]) => void;
-  addTask: (task: Task) => void;
+  addTask: (task: Task, userId: string) => void;
   deleteTask: (id: string) => void;
   toggleTaskDone: (id: string, isDone: boolean) => void;
 }
@@ -60,8 +61,17 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
     dispatch({ type: "SET_TASKS", payload: tasks });
   };
 
-  const addTask = (task: Task) => {
-    dispatch({ type: "ADD_TASK", payload: task });
+  const addTask = async (task: TaskType, userId: string) => {
+    try {
+      const response = await api.post(`/tasks/createTask/${userId}`, {
+        title: task.title,
+        desc: task.desc,
+        deadline: task.deadline
+      });
+      dispatch({ type: "ADD_TASK", payload: response.data });
+    } catch (error) {
+      console.error('Error adding task:', error);
+    }
   };
 
   const deleteTask = (id: string) => {
