@@ -87,7 +87,7 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
 
   const toggleTaskDone = async (id: string, isDone: boolean) => {
     try {
-      await api.patch(`/tasks/done/${id}`, { isDone });
+      await api.patch(`/tasks/${id}`, { isDone });
       dispatch({ type: "TOGGLE_TASK_DONE", payload: { id, isDone } });
     } catch (error) {
       console.error("Error updating task status:", error);

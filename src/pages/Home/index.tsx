@@ -8,7 +8,7 @@ import { Header } from "../../components/Header";
 import { TaskModal } from "../../components/Modals/TaskModal";
 import { Add } from "../../components/Add";
 import { TaskInputType } from "../../types";
-import useUser  from "../../hooks/useUser";
+import useUser from "../../hooks/useUser";
 import useAuth from "../../hooks/useAuth";
 import { useTasks } from "../../hooks/useTask";
 import { useFetchTasks } from "../../hooks/useFetchTasks";
@@ -19,6 +19,7 @@ export const Home: React.FC = () => {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<"active" | "completed">("active");
 
   useFetchTasks(user?.id || "");
 
@@ -60,6 +61,10 @@ export const Home: React.FC = () => {
     }
   }, [currentUser, navigate]);
 
+  const filteredTasks = tasks.filter((task) =>
+    activeTab === "active" ? !task.isDone : task.isDone
+  );
+
   return (
     <>
       <div className="min-h-screen h-4/5 w-full flex flex-col lg:flex-row">
@@ -87,17 +92,44 @@ export const Home: React.FC = () => {
             </button>
           </div>
 
+          <div className="flex justify-center gap-4 my-4">
+            <button
+              className={`text-sm lg:text-base font-bold ${
+                activeTab === "active" ? "text-highlight" : "text-white"
+              }`}
+              onClick={() => setActiveTab("active")}
+            >
+              EM ANDAMENTO
+            </button>
+            <button
+              className={`text-sm lg:text-base font-bold ${
+                activeTab === "completed" ? "text-highlight" : "text-white"
+              }`}
+              onClick={() => setActiveTab("completed")}
+            >
+              FINALIZADAS
+            </button>
+          </div>
+
           <div>
-            {tasks.map((task) => (
-              <Task
-                id={task.id}
-                key={task.id}
-                deadline={task.deadline}
-                title={task.title}
-                desc={task.desc}
-                isDone={task.isDone}
-              />
-            ))}
+            {filteredTasks.length > 0 ? (
+              filteredTasks.map((task) => (
+                <Task
+                  id={task.id}
+                  key={task.id}
+                  deadline={task.deadline}
+                  title={task.title}
+                  desc={task.desc}
+                  isDone={task.isDone}
+                />
+              ))
+            ) : (
+              <div className="text-center text-white font-bold text-lg mt-10">
+                {activeTab === "active"
+                  ? "Muito bem, você finalizou tudo! Parabéns!"
+                  : "Você ainda não tem tarefas finalizadas. Continue trabalhando!"}
+              </div>
+            )}
           </div>
 
           <button
