@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { IconTrash } from "../IconTrash";
-import { useTasks } from "../../contexts/TaskContext";
 import { Modal } from "../Modals/DefaultModal";
 import { Check } from "../Check";
 import { Uncheck } from "../Uncheck";
+import { useTasks } from "../../hooks/useTask";
 
 interface Props {
   id: string;

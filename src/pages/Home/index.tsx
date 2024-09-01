@@ -6,14 +6,16 @@ import { Logout } from "../../components/IconLogout";
 import { Sidebar } from "../../components/Sidebar";
 import { Header } from "../../components/Header";
 import { TaskModal } from "../../components/Modals/TaskModal";
-import { useFetchTasks, useTasks } from "../../contexts/TaskContext";
-import { useAuth } from "../../contexts/AuthContext";
 import { Add } from "../../components/Add";
-import { useUser } from "../../contexts/UserContext";
+import { TaskInputType } from "../../types";
+import useUser  from "../../hooks/useUser";
+import useAuth from "../../hooks/useAuth";
+import { useTasks } from "../../hooks/useTask";
+import { useFetchTasks } from "../../hooks/useFetchTasks";
 
 export const Home: React.FC = () => {
   const { tasks, addTask } = useTasks();
-  const {fetchAndSetUser, user} = useUser();
+  const { fetchAndSetUser, user } = useUser();
   const { currentUser } = useAuth();
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,8 +23,9 @@ export const Home: React.FC = () => {
   useFetchTasks(user?.id || "");
 
   useEffect(() => {
-    if(currentUser) fetchAndSetUser(currentUser.email!);
-}, [currentUser, currentUser?.email, fetchAndSetUser]);
+    if (currentUser) fetchAndSetUser(currentUser.email!);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -41,14 +44,12 @@ export const Home: React.FC = () => {
     desc?: string;
     deadline: Date;
   }) => {
-    const newTask = {
-      id: String(Date.now()),
-      userId: 1,
+    const newTask: TaskInputType = {
+      deadline: data.deadline,
       title: data.title,
       desc: data.desc,
-      deadline: data.deadline,
-      isDone: false,
     };
+
     addTask(newTask, user?.id || "");
     handleCloseModal();
   };
@@ -59,7 +60,6 @@ export const Home: React.FC = () => {
     }
   }, [currentUser, navigate]);
 
-  
   return (
     <>
       <div className="min-h-screen h-4/5 w-full flex flex-col lg:flex-row">

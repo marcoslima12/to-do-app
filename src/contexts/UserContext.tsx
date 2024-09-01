@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, ReactNode, } from 'react';
+import React, { createContext, useState, ReactNode, } from 'react';
 import api from '../services/api';
 
 export type UserType = {
@@ -12,7 +12,7 @@ interface UserContextType {
     fetchAndSetUser: (userId: string) => Promise<void>;
 }
 
-const UserContext = createContext<UserContextType | undefined>(undefined);
+export const UserContext = createContext<UserContextType | undefined>(undefined);
 
 interface UserProviderProps {
     children: ReactNode;
@@ -38,11 +38,3 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     );
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const useUser = () => {
-    const context = useContext(UserContext);
-    if (context === undefined) {
-        throw new Error('useUser must be used within a UserProvider');
-    }
-    return context;
-}

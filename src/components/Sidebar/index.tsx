@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { ProfileLogo } from "../../assets";
-import { useAuth } from "../../contexts/AuthContext";
 import { logOut } from "../../services/auth";
 import { Logout } from "../IconLogout";
 import { Modal } from "../Modals/DefaultModal";
 import { useState } from "react";
 import { MediumLogo } from "../MediumLogo";
+import useAuth from "../../hooks/useAuth";
 
 export const Sidebar = () => {
   const { currentUser } = useAuth();
@@ -14,7 +14,7 @@ export const Sidebar = () => {
   const handleLogout = async () => {
     try {
       await logOut();
-      navigate("/login"); // Redireciona para a página de login após logout
+      navigate("/login");
     } catch (err) {
       console.error("Logout failed", err);
     }

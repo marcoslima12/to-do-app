@@ -1,11 +1,10 @@
-export type TaskType = {
+export type TaskInputType = {
     title: string;
-    desc?: string;
+    desc?: string | undefined;
     deadline: Date;
 }
 
 export type UserType = {
-    id: string;
     email: string;
     fullname: string;
 }

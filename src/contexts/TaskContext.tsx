@@ -1,6 +1,6 @@
-import { createContext, useContext, ReactNode, useReducer, useEffect } from "react";
+import { createContext, ReactNode, useReducer } from "react";
 import api from "../services/api";
-import { TaskType } from "../types";
+import { TaskInputType } from "../types";
 
 interface Task {
   id: string;
@@ -12,7 +12,7 @@ interface Task {
 }
 
 type TaskAction =
-  | {type: "SET_TASKS"; payload: Task[]}
+  | { type: "SET_TASKS"; payload: Task[] }
   | { type: "ADD_TASK"; payload: Task }
   | { type: "DELETE_TASK"; payload: string }
   | { type: "TOGGLE_TASK_DONE"; payload: { id: string; isDone: boolean } };
@@ -47,12 +47,14 @@ function taskReducer(state: Task[], action: TaskAction): Task[] {
 interface TaskContextType {
   tasks: Task[];
   setTasks: (tasks: Task[]) => void;
-  addTask: (task: Task, userId: string) => void;
+  addTask: (task: TaskInputType, userId: string) => void;
   deleteTask: (id: string) => void;
   toggleTaskDone: (id: string, isDone: boolean) => void;
 }
 
-const TaskContext = createContext<TaskContextType | undefined>(undefined);
+export const TaskContext = createContext<TaskContextType | undefined>(
+  undefined
+);
 
 export const TaskProvider = ({ children }: { children: ReactNode }) => {
   const [tasks, dispatch] = useReducer(taskReducer, initialState);
@@ -61,16 +63,16 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
     dispatch({ type: "SET_TASKS", payload: tasks });
   };
 
-  const addTask = async (task: TaskType, userId: string) => {
+  const addTask = async (task: TaskInputType, userId: string) => {
     try {
-      const response = await api.post(`/tasks/createTask/${userId}`, {
+      const response = await api.post(`/tasks/user/${userId}`, {
         title: task.title,
         desc: task.desc,
-        deadline: task.deadline
+        deadline: task.deadline,
       });
       dispatch({ type: "ADD_TASK", payload: response.data });
     } catch (error) {
-      console.error('Error adding task:', error);
+      console.error("Error adding task:", error);
     }
   };
 
@@ -79,7 +81,7 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
       await api.delete(`/tasks/${taskId}`);
       dispatch({ type: "DELETE_TASK", payload: taskId });
     } catch (error) {
-      console.error('Error deleting task:', error);
+      console.error("Error deleting task:", error);
     }
   };
 
@@ -88,7 +90,7 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
       await api.patch(`/tasks/done/${id}`, { isDone });
       dispatch({ type: "TOGGLE_TASK_DONE", payload: { id, isDone } });
     } catch (error) {
-      console.error('Error updating task status:', error);
+      console.error("Error updating task status:", error);
     }
   };
 
@@ -99,29 +101,4 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
       {children}
     </TaskContext.Provider>
   );
-};
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const useTasks = () => {
-  const context = useContext(TaskContext);
-  if (!context) {
-    throw new Error("useTasks must be used within a TaskProvider");
-  }
-  return context;
-};
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const useFetchTasks = (userId: string) => {
-  const { setTasks } = useTasks();
-
-  useEffect(() => {
-    async function fetchTasks() {
-      const response = await api.get(`/tasks/user/${userId}`);
-      console.log(response.data)
-      setTasks(response.data);
-    }
-
-    fetchTasks();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userId]);
 };

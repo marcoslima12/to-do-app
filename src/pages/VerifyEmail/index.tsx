@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthContext";
 import { sendEmailVerification, reload } from "firebase/auth";
 import { logOut } from "../../services/auth";
+import useAuth from "../../hooks/useAuth";
 
 export const VerifyEmail: React.FC = () => {
   const { currentUser } = useAuth();
