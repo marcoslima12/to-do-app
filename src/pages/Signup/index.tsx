@@ -13,6 +13,7 @@ import { Button } from "../../components/Button";
 import { Input } from "../../components/Input"; // Importa o componente Input
 import { MobileLogo } from "../../components/MobileLogo";
 import { DesktopLogo } from "../../components/DesktopLogo";
+import api from "../../services/api";
 
 const SignUpFormSchema = z
   .object({
@@ -47,6 +48,18 @@ export const SignUp = () => {
   const navigate = useNavigate();
   const { currentUser } = useAuth();
 
+  const handleAddUser = async (email: string, fullname: string) => {
+    try {
+      const response = await api.post("/users", {
+        email,
+        fullname,
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const onSubmit = async (data: SignUpFormInputs) => {
     try {
       const userCredential = await signUp(data.email, data.password);
@@ -55,11 +68,17 @@ export const SignUp = () => {
         await updateProfile(userCredential.user, {
           displayName: `${data.firstName} ${data.lastName}`,
         });
+        if(userCredential.user.displayName && userCredential.user.email){
+          console.log(userCredential.user.displayName);
+          console.log(userCredential.user.email);
+          handleAddUser(
+            userCredential.user.email,
+            userCredential.user.displayName
+          );
+        }
         await sendEmailVerification(userCredential.user);
+        navigate("/verify-email");
       }
-      
-      navigate("/verify-email");
-
     } catch (err) {
       console.error("Sign Up failed", err);
       toast.error(
