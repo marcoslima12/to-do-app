@@ -10,7 +10,7 @@ import { Button } from "../../components/Button";
 import { Input } from "../../components/Input";
 import { DesktopLogo } from "../../components/DesktopLogo";
 import { MobileLogo } from "../../components/MobileLogo";
-import { useAuth } from "../../contexts";
+import { useAuth } from "../../contexts/AuthContext";
 
 const LoginFormSchema = z.object({
   email: z

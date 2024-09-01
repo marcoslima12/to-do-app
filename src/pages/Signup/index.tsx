@@ -4,13 +4,12 @@ import { sendEmailVerification, updateProfile } from "firebase/auth";
 import { signUp } from "../../services/auth";
 import { useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
-
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Button } from "../../components/Button";
-import { Input } from "../../components/Input"; // Importa o componente Input
+import { Input } from "../../components/Input";
 import { MobileLogo } from "../../components/MobileLogo";
 import { DesktopLogo } from "../../components/DesktopLogo";
 import api from "../../services/api";
@@ -54,7 +53,7 @@ export const SignUp = () => {
         email,
         fullname,
       });
-      console.log(response.data);
+      console.log(response.status);
     } catch (error) {
       console.error(error);
     }

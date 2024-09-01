@@ -1,7 +1,9 @@
-import { createContext, useContext, ReactNode, useReducer } from "react";
+import { createContext, useContext, ReactNode, useReducer, useEffect } from "react";
+import api from "../services/api";
 
 interface Task {
   id: string;
+  userId: number;
   title: string;
   desc?: string;
   deadline: Date;
@@ -9,6 +11,7 @@ interface Task {
 }
 
 type TaskAction =
+  | {type: "SET_TASKS"; payload: Task[]}
   | { type: "ADD_TASK"; payload: Task }
   | { type: "DELETE_TASK"; payload: string }
   | { type: "TOGGLE_TASK_DONE"; payload: { id: string; isDone: boolean } };
@@ -17,6 +20,9 @@ const initialState: Task[] = [];
 
 function taskReducer(state: Task[], action: TaskAction): Task[] {
   switch (action.type) {
+    case "SET_TASKS":
+      return action.payload;
+
     case "ADD_TASK":
       return [...state, action.payload];
 
@@ -39,6 +45,7 @@ function taskReducer(state: Task[], action: TaskAction): Task[] {
 
 interface TaskContextType {
   tasks: Task[];
+  setTasks: (tasks: Task[]) => void;
   addTask: (task: Task) => void;
   deleteTask: (id: string) => void;
   toggleTaskDone: (id: string, isDone: boolean) => void;
@@ -48,6 +55,10 @@ const TaskContext = createContext<TaskContextType | undefined>(undefined);
 
 export const TaskProvider = ({ children }: { children: ReactNode }) => {
   const [tasks, dispatch] = useReducer(taskReducer, initialState);
+
+  const setTasks = (tasks: Task[]) => {
+    dispatch({ type: "SET_TASKS", payload: tasks });
+  };
 
   const addTask = (task: Task) => {
     dispatch({ type: "ADD_TASK", payload: task });
@@ -63,7 +74,7 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <TaskContext.Provider
-      value={{ tasks, addTask, deleteTask, toggleTaskDone }}
+      value={{ tasks, setTasks, addTask, deleteTask, toggleTaskDone }}
     >
       {children}
     </TaskContext.Provider>
@@ -77,4 +88,20 @@ export const useTasks = () => {
     throw new Error("useTasks must be used within a TaskProvider");
   }
   return context;
+};
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const useFetchTasks = (userId: string) => {
+  const { setTasks } = useTasks();
+
+  useEffect(() => {
+    async function fetchTasks() {
+      const response = await api.get(`/tasks/user/${userId}`);
+      console.log(response.data)
+      setTasks(response.data);
+    }
+
+    fetchTasks();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userId]);
 };

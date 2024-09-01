@@ -47,7 +47,7 @@ export const Task = ({
         <p className="text-white mb-4 text-sm">{desc}</p>
         {deadline && (
           <span className="text-xs text-highlight text">
-            {deadline.toLocaleDateString("pt-BR")}
+            {deadline.toString()}
           </span>
         )}
       </div>
@@ -73,7 +73,7 @@ export const Task = ({
             </div>
 
             <span className="text-[10px] text-highlight">
-              {deadline?.toLocaleDateString("pt-BR")}
+              {deadline?.toString()}
             </span>
           </div>
 
