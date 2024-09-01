@@ -64,7 +64,7 @@ export const Login = () => {
 
   return (
     <>
-      <div className="min-h-screen w-full px-7 container mx-auto md:w-3/4 lg:w-2/4 lg:flex lg:justify-between lg:items-center">
+      <div className="min-h-screen w-full px-7 container mx-auto md:w-3/4 lg:w-3/5 lg:flex lg:justify-between lg:items-center lg:gap-10">
         <div className="flex flex-col justify-between items-start py-20 w-full lg:w-auto">
           <div className="w-full flex justify-between items-start">
             <h1 className="text-white text-5xl md:text-6xl font-inter font-bold">
@@ -102,13 +102,13 @@ export const Login = () => {
                 isSubmitting={isSubmitting}
               />
 
-              <span className="font-bold text-xs text-white">
+              <span className="font-bold text-xs text-white text-center">
                 Esqueceu sua senha?{" "}
                 <a href="/reset-password" className="underline">
                   Recuperar senha
                 </a>
               </span>
-              <span className="font-bold text-xs text-white">
+              <span className="font-bold text-xs text-white text-center">
                 Não tem uma conta?{" "}
                 <a href="/signup" className="underline">
                   Cadastre-se!

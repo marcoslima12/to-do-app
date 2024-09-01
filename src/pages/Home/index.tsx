@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { logOut } from "../../services/auth";
-import { useEffect } from "react";
 import { Task } from "../../components/Task";
 import { Logout } from "../../components/IconLogout";
 import { Sidebar } from "../../components/Sidebar";
 import { Header } from "../../components/Header";
-import { TaskModal } from "../../components/Modal";
+import { TaskModal } from "../../components/Modals/TaskModal";
+import { useTasks } from "../../contexts/TaskContext";
+import { useAuth } from "../../contexts/AuthContext";
 import { Add } from "../../components/Add";
-import { useAuth, useTasks } from "../../contexts";
 
 export const Home: React.FC = () => {
   const { tasks, addTask } = useTasks();
@@ -33,7 +33,14 @@ export const Home: React.FC = () => {
     desc?: string;
     deadline: Date;
   }) => {
-    addTask({ ...data, isDone: false });
+    const newTask = {
+      id: String(Date.now()),
+      title: data.title,
+      desc: data.desc,
+      deadline: data.deadline,
+      isDone: false,
+    };
+    addTask(newTask);
     handleCloseModal();
   };
 
@@ -70,15 +77,18 @@ export const Home: React.FC = () => {
             </button>
           </div>
 
-          {tasks.map((task) => (
-            <Task
-              key={task.title}
-              deadline={task.deadline}
-              title={task.title}
-              desc={task.desc}
-              isDone={task.isDone}
-            />
-          ))}
+          <div>
+            {tasks.map((task) => (
+              <Task
+                id={task.id}
+                key={task.id}
+                deadline={task.deadline}
+                title={task.title}
+                desc={task.desc}
+                isDone={task.isDone}
+              />
+            ))}
+          </div>
 
           <button
             onClick={handleOpenModal}

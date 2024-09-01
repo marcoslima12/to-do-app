@@ -27,13 +27,13 @@ export const Input = ({
         )}
       </label>
       <input
+        className={`box-border w-full px-3 py-2 mt-4 mb-2 text-sm bg-primary text-white rounded shadow focus:outline-none focus:shadow-outline ${
+          error ? "border-red-500" : ""
+        }`}
         placeholder={placeholder}
         type={type}
         id={id}
         {...register}
-        className={`box-border w-full px-3 py-2 mt-4 mb-2 text-sm bg-primary text-white rounded shadow focus:outline-none focus:shadow-outline ${
-          error ? "border-red-500" : ""
-        }`}
       />
       {error && (
         <p className="text-red-500 text-xs italic mb-2">{error.message}</p>

@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { updateProfile } from "firebase/auth";
+import { sendEmailVerification, updateProfile } from "firebase/auth";
 import { signUp } from "../../services/auth";
 import { useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
@@ -13,6 +13,7 @@ import { Button } from "../../components/Button";
 import { Input } from "../../components/Input"; // Importa o componente Input
 import { MobileLogo } from "../../components/MobileLogo";
 import { DesktopLogo } from "../../components/DesktopLogo";
+import api from "../../services/api";
 
 const SignUpFormSchema = z
   .object({
@@ -24,7 +25,7 @@ const SignUpFormSchema = z
       .min(8, "A senha deve ter pelo menos 8 caracteres!")
       .regex(/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}$/, {
         message:
-          "A senha deve conter pelo menos uma letra maiúscula, uma letra minúscula, um número e um caractere especial!",
+          "A senha deve conter uma letra maiúscula, minúscula, um número e um caractere especial!",
       }),
     confirmPassword: z.string().min(1, "Confirme sua senha!"),
   })
@@ -47,6 +48,18 @@ export const SignUp = () => {
   const navigate = useNavigate();
   const { currentUser } = useAuth();
 
+  const handleAddUser = async (email: string, fullname: string) => {
+    try {
+      const response = await api.post("/users", {
+        email,
+        fullname,
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const onSubmit = async (data: SignUpFormInputs) => {
     try {
       const userCredential = await signUp(data.email, data.password);
@@ -55,9 +68,17 @@ export const SignUp = () => {
         await updateProfile(userCredential.user, {
           displayName: `${data.firstName} ${data.lastName}`,
         });
+        if(userCredential.user.displayName && userCredential.user.email){
+          console.log(userCredential.user.displayName);
+          console.log(userCredential.user.email);
+          handleAddUser(
+            userCredential.user.email,
+            userCredential.user.displayName
+          );
+        }
+        await sendEmailVerification(userCredential.user);
+        navigate("/verify-email");
       }
-
-      navigate("/home");
     } catch (err) {
       console.error("Sign Up failed", err);
       toast.error(
@@ -86,8 +107,8 @@ export const SignUp = () => {
 
   return (
     <>
-      <div className="min-h-screen w-full px-7 container mx-auto md:w-3/4 lg:w-2/4 lg:flex lg:justify-between lg:items-center">
-        <div className="flex flex-col justify-between items-start py-20">
+      <div className="min-h-screen w-full px-7 container mx-auto md:w-3/4 lg:w-3/5 lg:flex lg:justify-between lg:items-center lg:gap-10">
+        <div className="flex flex-col justify-between items-start py-20 w-full lg:w-auto">
           <div className="w-full flex justify-between items-start">
             <h1 className="text-white text-5xl md:text-6xl font-inter font-bold">
               do it!
@@ -149,13 +170,13 @@ export const SignUp = () => {
               required
             />
 
-            <div className="w-full gap-4 py-6 flex flex-col items-center justify-between">
+            <div className="w-full gap-4 py-6 flex flex-col items-center justify-between text-center">
               <Button
                 text="Cadastrar-se"
                 type="submit"
                 isSubmitting={isSubmitting}
               />
-              <span className="font-bold text-xs text-white">
+              <span className="font-bold text-xs text-white text-center">
                 Já tem uma conta?{" "}
                 <a href="/login" className="underline">
                   Faça login
@@ -164,7 +185,6 @@ export const SignUp = () => {
             </div>
           </form>
         </div>
-
         <MobileLogo />
       </div>
       <ToastContainer />
