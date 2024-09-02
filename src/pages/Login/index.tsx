@@ -57,7 +57,7 @@ export const Login = () => {
   };
 
   useEffect(() => {
-    if (currentUser) {
+    if (currentUser && currentUser.emailVerified) {
       navigate("/home");
     } else {
       navigate("/login");
