@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { logOut } from "../../services/auth";
 import { Task } from "../../components/Task";
@@ -12,8 +12,9 @@ import useUser from "../../hooks/useUser";
 import useAuth from "../../hooks/useAuth";
 import { useTasks } from "../../hooks/useTask";
 import { useFetchTasks } from "../../hooks/useFetchTasks";
+import { Modal } from "../../components/Modals/DefaultModal";
 
-export const Home: React.FC = () => {
+export const Home = () => {
   const { tasks, addTask } = useTasks();
   const { fetchAndSetUser, user } = useUser();
   const { currentUser } = useAuth();
@@ -37,6 +38,10 @@ export const Home: React.FC = () => {
     }
   };
 
+  const [logOutModal, setLogOutModal] = useState(false);
+  const handleOpenModalLogout = () => setLogOutModal(true);
+  const handleCloseModalLogout = () => setLogOutModal(false);
+
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
 
@@ -55,10 +60,13 @@ export const Home: React.FC = () => {
     handleCloseModal();
   };
 
-
   const filteredTasks = tasks.filter((task) =>
     activeTab === "active" ? !task.isDone : task.isDone
   );
+
+  const LogoutComponent = () => {
+    return <span className="text-white">Você realmente deseja sair?</span>;
+  };
 
   return (
     <>
@@ -70,7 +78,7 @@ export const Home: React.FC = () => {
             <h1 className="font-bold text-xl text-white">
               Olá, {currentUser?.displayName}!
             </h1>
-            <button onClick={handleLogout}>
+            <button onClick={handleOpenModalLogout}>
               <Logout />
             </button>
           </div>
@@ -141,6 +149,15 @@ export const Home: React.FC = () => {
           />
         </div>
       </div>
+      <Modal
+        cancelText="Não, quero retonar"
+        confirmText="Sim, quero sair"
+        onConfirm={handleLogout}
+        isOpen={logOutModal}
+        onClose={handleCloseModalLogout}
+        children={<LogoutComponent />}
+        title="Fazer logout"
+      />
     </>
   );
 };
