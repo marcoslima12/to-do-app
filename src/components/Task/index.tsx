@@ -28,27 +28,28 @@ export const Task = ({
     e.stopPropagation();
     const newIsDone = !isDone;
     setIsDone(newIsDone);
-    toggleTaskDone(id, newIsDone); 
+    toggleTaskDone(id, newIsDone);
   };
 
   const toggleModal = () => setIsModalOpen(!isModalOpen);
 
   const handleDeleteTask = (e: React.MouseEvent) => {
     e.stopPropagation();
-     
-    deleteTask(id); 
+
+    deleteTask(id);
   };
 
   const TaskModalComponent = () => {
+
     return (
-      <div>
+      <div className="m-2">
         <h3 className="text-md font-bold lg:text-xl mb-2 text-highlight">
           {title}
         </h3>
         <p className="text-white mb-4 text-sm">{desc}</p>
         {deadline && (
           <span className="text-xs text-highlight text">
-            {deadline.toString()}
+            {deadline.toLocaleString("pt-BR")}
           </span>
         )}
       </div>
@@ -74,7 +75,7 @@ export const Task = ({
             </div>
 
             <span className="text-[10px] text-highlight">
-              {deadline?.toString()}
+              {deadline?.toLocaleString("pt-BR")}
             </span>
           </div>
 

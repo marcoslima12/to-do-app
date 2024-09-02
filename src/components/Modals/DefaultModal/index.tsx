@@ -55,10 +55,10 @@ export const Modal: React.FC<ModalProps> = ({
 
   return (
     <dialog ref={dialogRef} onClick={handleClickOutside}>
-      <div className="fixed inset-0 bg-primary backdrop-blur-sm bg-opacity-50 flex justify-center items-center">
+      <div className="fixed inset-0 bg-primary backdrop-blur-sm bg-opacity-50 flex justify-center items-center h-auto">
         <div
           onClick={(e) => e.stopPropagation()}
-          className="bg-terciary p-6 rounded-lg shadow-lg  w-11/12 md:w-3/5 max-w-lg relative"
+          className="bg-terciary p-6 rounded-lg shadow-lg  w-11/12 md:w-3/5 max-w-lg relative "
         >
           <button
             className="absolute top-4 right-4"
@@ -68,7 +68,9 @@ export const Modal: React.FC<ModalProps> = ({
             <Close />
           </button>
           {title && <h2 className="text-xl mb-4 text-highlight">{title}</h2>}
-          <div>{children}</div>
+
+          {children}
+
           <div className="flex gap-4 mt-4">
             {cancelText && (
               <Button text={cancelText} type="button" onClick={onClose} />
