@@ -55,11 +55,6 @@ export const Home: React.FC = () => {
     handleCloseModal();
   };
 
-  useEffect(() => {
-    if (!currentUser) {
-      navigate("/login");
-    }
-  }, [currentUser, navigate]);
 
   const filteredTasks = tasks.filter((task) =>
     activeTab === "active" ? !task.isDone : task.isDone

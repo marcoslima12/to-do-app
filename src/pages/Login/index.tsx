@@ -59,6 +59,8 @@ export const Login = () => {
   useEffect(() => {
     if (currentUser) {
       navigate("/home");
+    } else {
+      navigate("/login");
     }
   }, [currentUser, navigate]);
 
