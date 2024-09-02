@@ -49,11 +49,10 @@ export const SignUp = () => {
 
   const handleAddUser = async (email: string, fullname: string) => {
     try {
-      const response = await api.post("/users", {
+      await api.post("/users", {
         email,
         fullname,
       });
-      console.log(response.status);
     } catch (error) {
       console.error(error);
     }
@@ -68,8 +67,6 @@ export const SignUp = () => {
           displayName: `${data.firstName} ${data.lastName}`,
         });
         if(userCredential.user.displayName && userCredential.user.email){
-          console.log(userCredential.user.displayName);
-          console.log(userCredential.user.email);
           handleAddUser(
             userCredential.user.email,
             userCredential.user.displayName

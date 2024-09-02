@@ -8,7 +8,6 @@ export const useFetchTasks = (userId: string) => {
     useEffect(() => {
       async function fetchTasks() {
         const response = await api.get(`/tasks/user/${userId}`);
-        console.log(response.data)
         setTasks(response.data);
       }
   
